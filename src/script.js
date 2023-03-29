@@ -13,7 +13,7 @@ function set(setting, value) {
 	update();
 }
 
-let canvas = document.querySelector("#display");
+let canvas = document.querySelector("#canvas");
 let ctx = canvas.getContext("2d");
 
 let moves = document.querySelector('#moves');
@@ -29,6 +29,7 @@ function update(){
 	draw2D(applyMoves(settings['inputMode'], settings['notation'], settings['initialFacets'], settings['moves']));
 }
 function setSize(){
+	moves.style.height = settings['imageSize']+'px';
 	canvas.height = settings['imageSize'];
 	canvas.width = settings['imageSize'];
 }

@@ -1,101 +1,109 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Cube Visualizer</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
-    <link rel="stylesheet" href="index.css" />
-    <script defer src="render.js"></script>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <title>Cube Visualizer</title>
 
-  <body>
-    <section class="hero is-primary">
-      <div class="hero-body">
-        <p class="title">Cube Visualizer</p>
-      </div>
-    </section>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
+  <link rel="stylesheet" href="index.css" />
+  <script defer src="render.js"></script>
+</head>
 
-    <nav id="settings" class="level has-background-primary">
-      <div class="level-item dropdown is-hoverable">
-        <div class="dropdown-trigger">
-          <span>Notation</span>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            <a onclick="set('notation', 'std')" class="dropdown-item is-active">
-              Singmaster
-            </a>
-            <a onclick="set('notation', 'vcn')" class="dropdown-item">
-              Virtual Cube
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="level-item dropdown is-hoverable">
-        <div class="dropdown-trigger">
-          <span>Input Mode</span>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            <a onclick="set('inputMode', 'case')" class="dropdown-item is-active">
-              Case
-            </a>
-            <a onclick="set('inputMode', 'alg')" class="dropdown-item">
-              Setup
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="level-item dropdown is-hoverable">
-        <div class="dropdown-trigger">
-          <span>Background</span>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            <input class="input" type="text" onchange="set('background',this.value)" value="#ffffff">
-          </div>
-        </div>
-      </div>
-      <div class="level-item dropdown is-hoverable">
-        <div class="dropdown-trigger">
-          <span>Border Width</span>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            <input class="input" type="number" onchange="set('borderWidth',this.value)" value="1">
-          </div>
-        </div>
-      </div>
-      <div class="level-item dropdown is-hoverable">
-        <div class="dropdown-trigger">
-          <span>Image Size</span>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            <input class="input" type="number" onchange="set('imageSize',this.value)" value="200">
-          </div>
-        </div>
-      </div>
-      <div class="level-item">
-        <span onclick="download()">
-          Download
-        </span>
-      </div>
-    </nav>
+<body>
+  <section class="hero is-primary">
+    <div class="hero-body">
+      <p class="title">Cube Visualizer</p>
+    </div>
+  </section>
 
-    <section id="main">
-      <div class="columns">
-        <div class="column">
-          <textarea class="textarea has-fixed-size" id="moves" placeholder="moves" spellcheck="false"></textarea>
-          <textarea class="textarea has-fixed-size" id="facets" placeholder="facet definition"
-            spellcheck="false">yyyyyyyyywwwwwwwwwbbbbbbbbbgggggggggrrrrrrrrrooooooooo</textarea>
-        </div>
-        <div class="column">
-          <canvas id="display" style="border: 1px solid #000000"></canvas>
+  <nav id="settings" class="level has-background-primary has-text-white mb-0" style="margin-bottom: 0px;">
+    <div class="level-item dropdown is-hoverable">
+      <div class="dropdown-trigger">
+        <span>Notation</span>
+      </div>
+      <div class="dropdown-menu" id="dropdown-menu" role="menu">
+        <div class="dropdown-content">
+          <a onclick="set('notation', 'std')" class="dropdown-item is-active">
+            Singmaster
+          </a>
+          <a onclick="set('notation', 'vcn')" class="dropdown-item">
+            Virtual Cube
+          </a>
         </div>
       </div>
-    </section>
-    <script src="script.js"></script>
-  </body>
+    </div>
+    <div class="level-item dropdown is-hoverable">
+      <div class="dropdown-trigger">
+        <span>Input Mode</span>
+      </div>
+      <div class="dropdown-menu" id="dropdown-menu" role="menu">
+        <div class="dropdown-content">
+          <a onclick="set('inputMode', 'case')" class="dropdown-item is-active">
+            Case
+          </a>
+          <a onclick="set('inputMode', 'alg')" class="dropdown-item">
+            Setup
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="level-item dropdown is-hoverable">
+      <div class="dropdown-trigger">
+        <span>Background</span>
+      </div>
+      <div class="dropdown-menu" id="dropdown-menu" role="menu">
+        <div class="dropdown-content">
+          <input class="input" type="text" onchange="set('background',this.value)" value="#ffffff">
+        </div>
+      </div>
+    </div>
+    <div class="level-item dropdown is-hoverable">
+      <div class="dropdown-trigger">
+        <span>Border Width</span>
+      </div>
+      <div class="dropdown-menu" id="dropdown-menu" role="menu">
+        <div class="dropdown-content">
+          <input class="input" type="number" onchange="set('borderWidth',this.value)" value="1">
+        </div>
+      </div>
+    </div>
+    <div class="level-item dropdown is-hoverable">
+      <div class="dropdown-trigger">
+        <span>Image Size</span>
+      </div>
+      <div class="dropdown-menu" id="dropdown-menu" role="menu">
+        <div class="dropdown-content">
+          <input class="input" type="number" onchange="set('imageSize',this.value)" value="200">
+        </div>
+      </div>
+    </div>
+    <div class="level-item dropdown is-hoverable">
+      <div class="dropdown-trigger">
+        <span>Facet Definition</span>
+      </div>
+      <div class="dropdown-menu" id="dropdown-menu" role="menu">
+        <div class="dropdown-content">
+          <input type="text" class="input" id="facets" spellcheck="false"
+            value="yyyyyyyyywwwwwwwwwbbbbbbbbbgggggggggrrrrrrrrrooooooooo">
+        </div>
+      </div>
+    </div>
+    <div class="level-item">
+      <span onclick="download()">
+        Download
+      </span>
+    </div>
+  </nav>
+  <nav id="main" class="level mb-0" style="margin-bottom: 0px;">
+    <div id="editor" class="level-item">
+      <textarea class="textarea has-fixed-size" id="moves" placeholder="moves" spellcheck="false"></textarea>
+    </div>
+    <div id="display" class="level-item">
+      <canvas id="canvas" style="border-width: 0px;"></canvas>
+    </div>
+  </nav>
+  <script src="script.js"></script>
+</body>
+
 </html>

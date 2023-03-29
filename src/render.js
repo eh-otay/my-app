@@ -9,7 +9,7 @@ if (dropdownitems.length > 0) {
     });
 }
 
-const dropdownstriggers = document.querySelectorAll('.level-item');
+const dropdownstriggers = document.querySelector('#settings').querySelectorAll('.level-item');
 if(dropdownstriggers.length > 0) {
     dropdownstriggers.forEach((trigger)=>{
         trigger.addEventListener('mouseover', (e)=>{

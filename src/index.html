@@ -7,7 +7,7 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
   <link rel="stylesheet" href="index.css" />
-  <script defer src="render.js"></script>
+  <script defer src="script.js"></script>
 </head>
 
 <body>
@@ -90,8 +90,8 @@
       </div>
     </div>
     <div class="level-item">
-      <span onclick="download()">
-        Download
+      <span onclick="saveImage()">
+        Export
       </span>
     </div>
   </nav>
@@ -103,7 +103,7 @@
       <canvas id="canvas" style="border-width: 0px;"></canvas>
     </div>
   </nav>
-  <script src="script.js"></script>
+  <script src="engine.js"></script>
 </body>
 
 </html>

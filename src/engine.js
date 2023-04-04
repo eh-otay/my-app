@@ -1,68 +1,38 @@
-const { app, BrowserWindow, dialog, ipcMain } = require('electron');
-const path = require('path');
-const fs = require("fs");
-const {createCanvas} = require("canvas");
-
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) {
-  app.quit();
+let settings = {
+	'notation': 'std',
+	'inputMode': 'case',
+	'background': '#ffffff',
+	'borderWidth': '1',
+	'imageSize': '200',
+	'moves': '',
+	'initialFacets': 'yyyyyyyyywwwwwwwwwbbbbbbbbbgggggggggrrrrrrrrrooooooooo'
+};
+function set(setting, value) {
+	console.log('setting', setting, ':', value);
+	settings[setting] = value;
+	update();
 }
 
-const createWindow = () => {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 780,
-    height: 480,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-    }
-  });
+let canvas = document.querySelector("#canvas");
+let ctx = canvas.getContext("2d");
 
-  ipcMain.on('save', (event, settings) => {
-    dialog.showSaveDialog(mainWindow, {
-      defaultPath: 'cube-visual.png'
-    }).then(result => {
-      const image = createCanvas(parseInt(settings['imageSize']), parseInt(settings['imageSize']));
-      const ctx = image.getContext('2d');
-      draw2D(ctx, settings, applyMoves(settings['inputMode'], settings['notation'], settings['initialFacets'], settings['moves']));
-      const buffer = image.toBuffer("image/png");
-      fs.writeFile(result.filePath, buffer, ()=>{
-        console.log('done');
-      });
-    }).catch(err => {
-      console.log(err)
-    });
-  });
+let moves = document.querySelector('#moves');
+moves.addEventListener('input', ()=>{set('moves', moves.value)});
+moves.addEventListener('propertychange', ()=>{set('moves', moves.value)});
 
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'index.html'));
+let initialFacets = document.querySelector('#facets');
+initialFacets.addEventListener('input', ()=>{set('initialFacets', initialFacets.value)});
+initialFacets.addEventListener('propertychange', ()=>{set('initialFacets', initialFacets.value)});
 
-  // Open the DevTools.
-  //mainWindow.webContents.openDevTools();
-};
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
-
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
-
-app.on('activate', () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
-});
-
+function update(){
+	setSize();
+	draw2D(applyMoves(settings['inputMode'], settings['notation'], settings['initialFacets'], settings['moves']));
+}
+function setSize(){
+	moves.style.height = settings['imageSize']+'px';
+	canvas.height = settings['imageSize'];
+	canvas.width = settings['imageSize'];
+}
 function cycle(facets, cycle){
 	let facetarr = facets.split("");
 	[facetarr[cycle[0]], facetarr[cycle[1]], facetarr[cycle[2]], facetarr[cycle[3]]] =
@@ -428,7 +398,7 @@ function applyMoves(movetype, note, facets, moves){
 	}
 	return facets;
 }
-function draw2D(ctx, settings, facets){
+function draw2D(facets){
 	let SIZE = settings['imageSize'];
 
 	ctx.fillStyle = settings['background'];
@@ -439,37 +409,37 @@ function draw2D(ctx, settings, facets){
 	ctx.fillRect(0, SIZE*0.2, SIZE, SIZE*0.6);
 	
 	// U
-	fillSquare(ctx, settings, SIZE*0.2, SIZE*0.2, facets[0]);
-	fillSquare(ctx, settings, SIZE*0.4, SIZE*0.2, facets[1]);
-	fillSquare(ctx, settings, SIZE*0.6, SIZE*0.2, facets[2]);
-	fillSquare(ctx, settings, SIZE*0.2, SIZE*0.4, facets[3]);
-	fillSquare(ctx, settings, SIZE*0.4, SIZE*0.4, facets[4]);
-	fillSquare(ctx, settings, SIZE*0.6, SIZE*0.4, facets[5]);
-	fillSquare(ctx, settings, SIZE*0.2, SIZE*0.6, facets[6]);
-	fillSquare(ctx, settings, SIZE*0.4, SIZE*0.6, facets[7]);
-	fillSquare(ctx, settings, SIZE*0.6, SIZE*0.6, facets[8]);
+	fillSquare(SIZE*0.2, SIZE*0.2, facets[0]);
+	fillSquare(SIZE*0.4, SIZE*0.2, facets[1]);
+	fillSquare(SIZE*0.6, SIZE*0.2, facets[2]);
+	fillSquare(SIZE*0.2, SIZE*0.4, facets[3]);
+	fillSquare(SIZE*0.4, SIZE*0.4, facets[4]);
+	fillSquare(SIZE*0.6, SIZE*0.4, facets[5]);
+	fillSquare(SIZE*0.2, SIZE*0.6, facets[6]);
+	fillSquare(SIZE*0.4, SIZE*0.6, facets[7]);
+	fillSquare(SIZE*0.6, SIZE*0.6, facets[8]);
 	
 	// F
-	fillSquare(ctx, settings, SIZE*0.2, SIZE*0.8, facets[18]);
-	fillSquare(ctx, settings, SIZE*0.4, SIZE*0.8, facets[19]);
-	fillSquare(ctx, settings, SIZE*0.6, SIZE*0.8, facets[20]);
+	fillSquare(SIZE*0.2, SIZE*0.8, facets[18]);
+	fillSquare(SIZE*0.4, SIZE*0.8, facets[19]);
+	fillSquare(SIZE*0.6, SIZE*0.8, facets[20]);
 
 	// B
-	fillSquare(ctx, settings, SIZE*0.2, 0, facets[33]);
-	fillSquare(ctx, settings, SIZE*0.4, 0, facets[34]);
-	fillSquare(ctx, settings, SIZE*0.6, 0, facets[35]);
+	fillSquare(SIZE*0.2, 0, facets[33]);
+	fillSquare(SIZE*0.4, 0, facets[34]);
+	fillSquare(SIZE*0.6, 0, facets[35]);
 
 	// R
-	fillSquare(ctx, settings, SIZE*0.8, SIZE*0.2, facets[36]);
-	fillSquare(ctx, settings, SIZE*0.8, SIZE*0.4, facets[39]);
-	fillSquare(ctx, settings, SIZE*0.8, SIZE*0.6, facets[42]);
+	fillSquare(SIZE*0.8, SIZE*0.2, facets[36]);
+	fillSquare(SIZE*0.8, SIZE*0.4, facets[39]);
+	fillSquare(SIZE*0.8, SIZE*0.6, facets[42]);
 
 	// L
-	fillSquare(ctx, settings, 0, SIZE*0.2, facets[47]);
-	fillSquare(ctx, settings, 0, SIZE*0.4, facets[50]);
-	fillSquare(ctx, settings, 0, SIZE*0.6, facets[53]);
+	fillSquare(0, SIZE*0.2, facets[47]);
+	fillSquare(0, SIZE*0.4, facets[50]);
+	fillSquare(0, SIZE*0.6, facets[53]);
 }
-function fillSquare(ctx, settings, x, y, c){
+function fillSquare(x, y, c){
 	let SIZE = settings['imageSize'];
 	let BORDERWIDTH = settings['borderWidth']*0.005;
 	switch(c){
@@ -495,4 +465,9 @@ function fillSquare(ctx, settings, x, y, c){
 			ctx.fillStyle = "black";
 	}
 	ctx.fillRect(x+(SIZE*BORDERWIDTH), y+(SIZE*BORDERWIDTH), SIZE*0.2-2*(SIZE*BORDERWIDTH), SIZE*0.2-2*(SIZE*BORDERWIDTH));
+}
+update();
+
+function saveImage(){
+	window.electronAPI.save(settings);
 }

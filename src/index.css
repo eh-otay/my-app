@@ -4,6 +4,6 @@
 #main{
     padding: 5%;
 }
-.mb-0{
-    margin-bottom: 0px;
+html, body{
+    height: 100%;
 }
